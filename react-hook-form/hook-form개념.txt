@@ -15,6 +15,10 @@ React Hook Form 이란?
 
 
             * register()
+                ex) <input defaultValue="test" {...register("example")} />
+
+                - input 태그의 value 프로퍼티가 defaultValue로 사용이 된다. 
+                
 
             * handleSubmit()
 
