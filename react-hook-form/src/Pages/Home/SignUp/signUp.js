@@ -1,14 +1,29 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
+import { FORM_TYPE } from "../../../Consts/form.type";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
 
 const SignUpPage = () => {
   const {
     register,
     handleSubmit,
+    getValues,
+    setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm({ mode: "onBlur" });
 
-  const onSubmit = (data) => alert("회원가입에 성공하셨습니다!", JSON.stringify(data));
+  const onSubmit = (data) => {
+    alert("회원가입에 성공하셨습니다!");
+    let info = {
+      email: data.email,
+      pw: data.password,
+      nickName: data.nickName,
+      phone: data.phoneNumber,
+      region: "서울 강남구 역삼동",
+    };
+    console.log(info);
+  };
 
   return (
     <S.Div>
@@ -21,18 +36,7 @@ const SignUpPage = () => {
               <span>아이디</span>
             </S.ItemWrap>
             <S.InputBoxWrap>
-              <input
-                {...register("email", {
-                  required: "e-mail 형식으로 입력해주세요",
-                  maxLength: 20,
-                  pattern: {
-                    value:
-                      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
-                    message: "email 형식에 맞지 않습니다.",
-                  },
-                })}
-                placeholder="E-mail"
-              />
+              <input {...register("email", FORM_TYPE.EMAIL_TYPE)} placeholder="E-mail" />
               <button>중복확인</button>
             </S.InputBoxWrap>
           </S.InputWrapBtn>
@@ -45,38 +49,69 @@ const SignUpPage = () => {
             </S.ItemWrap>
 
             <S.InputBoxWrap>
-              <input placeholder="특수문자, 영어, 숫자 포함 6자이상" type="password" />
+              <input
+                {...register("password", FORM_TYPE.PW_TYPE)}
+                placeholder="특수문자, 영어, 숫자 포함 6자이상"
+                type="password"
+              />
             </S.InputBoxWrap>
           </S.InputWrap>
-
+          {errors.password && <span style={{ color: "red" }}>{errors.password.message}</span>}
           <S.InputWrap>
             <S.ItemWrap>
               <S.Mark>*</S.Mark>
               <span>비밀번호 확인</span>
             </S.ItemWrap>
             <S.InputBoxWrap>
-              <input placeholder="PW check" type="password" />
+              <input
+                {...register("confirmPW", {
+                  required: true,
+                  validate: (value) => {
+                    if (getValues("password") !== value) {
+                      return "비밀번호를 다시 확인해 주세요";
+                    }
+                  },
+                })}
+                placeholder="PW check"
+                type="password"
+              />
             </S.InputBoxWrap>
           </S.InputWrap>
+          {errors.confirmPW && <span style={{ color: "red" }}>{errors.confirmPW.message}</span>}
           <S.InputWrapBtn>
             <S.ItemWrap>
               <S.Mark>*</S.Mark>
               <span>닉네임</span>
             </S.ItemWrap>
             <S.InputBoxWrap>
-              <input placeholder="Nick_Name" />
+              <input {...register("nickName", FORM_TYPE.NICK_TYPE)} placeholder="Nick_Name" />
               <button>중복확인</button>
             </S.InputBoxWrap>
           </S.InputWrapBtn>
+          {errors.nickName && <span style={{ color: "red" }}>{errors.nickName.message}</span>}
           <S.InputWrap>
             <S.ItemWrap>
               <S.Mark>*</S.Mark>
               <span>전화번호</span>
             </S.ItemWrap>
             <S.InputBoxWrap>
-              <input placeholder="010-0000-0000" />
+              <input
+                maxLength="13"
+                {...register("phoneNumber", {
+                  onChange: (e) => {
+                    setValue(
+                      "phoneNumber",
+                      e.target.value
+                        .replace(/[^0-9]/g, "")
+                        .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)
+                    );
+                  },
+                })}
+                placeholder="010-0000-0000"
+              />
             </S.InputBoxWrap>
           </S.InputWrap>
+          {errors.phoneNumber && <span style={{ color: "red" }}>{errors.phoneNumber.message}</span>}
           <S.InputWrapBtn>
             <S.ItemWrap>
               <S.Mark>*</S.Mark>
