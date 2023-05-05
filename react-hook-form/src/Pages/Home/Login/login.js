@@ -5,12 +5,11 @@ import styled from "styled-components";
 import { FORM_TYPE } from "../../../Consts/form.type";
 
 const LoginPage = () => {
-  //  useForm 훅함수를 불러와 register(), handleSubmit() 함수를 얻음
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ mode: "onBlur" });
+  } = useForm({ mode: "onChange" });
 
   const onSubmit = (data) => alert(JSON.stringify(data));
 

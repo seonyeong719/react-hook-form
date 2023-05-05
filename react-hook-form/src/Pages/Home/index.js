@@ -11,7 +11,7 @@ const Prt = () => {
     getValues,
     setValue,
     formState: { errors },
-  } = useForm({ mode: "onBlur" });
+  } = useForm({ mode: "onChange" });
 
   const onSubmit = (data) => {
     alert("회원가입에 성공하셨습니다!");
@@ -23,6 +23,12 @@ const Prt = () => {
       region: "서울 강남구 역삼동",
     };
     console.log(info);
+  };
+
+  const textStyle = {
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
   };
 
   return (
@@ -45,19 +51,16 @@ const Prt = () => {
               </S.ItemWrap>
               <S.InputBoxWrap>
                 <TextField
-                  style={{ display: "flex", justifyContent: "center", width: "100%" }}
+                  style={textStyle}
                   id="outlined-basic"
                   label="E-mail"
                   variant="outlined"
                   {...register("email", FORM_TYPE.EMAIL_TYPE)}
-                  // placeholder="E-mail"
                 />
                 <button>중복확인</button>
               </S.InputBoxWrap>
             </S.InputWrapBtn>
-            {errors.email && (
-              <span style={{ color: "red", paddingLeft: "105px" }}>{errors.email.message}</span>
-            )}
+            {errors.email && <S.Error>{errors.email.message}</S.Error>}
 
             <S.InputWrap>
               <S.ItemWrap>
@@ -67,19 +70,16 @@ const Prt = () => {
 
               <S.InputBoxWrap>
                 <TextField
-                  style={{ display: "flex", justifyContent: "center", width: "100%" }}
+                  style={textStyle}
                   id="outlined-basic"
                   label="pw"
                   variant="outlined"
                   {...register("password", FORM_TYPE.PW_TYPE)}
-                  placeholder="특수문자, 영어, 숫자 포함 6자이상"
                   type="password"
                 />
               </S.InputBoxWrap>
             </S.InputWrap>
-            {errors.password && (
-              <span style={{ color: "red", paddingLeft: "105px" }}>{errors.password.message}</span>
-            )}
+            {errors.password && <S.Error>{errors.password.message}</S.Error>}
             <S.InputWrap>
               <S.ItemWrap>
                 <S.Mark>*</S.Mark>
@@ -87,7 +87,7 @@ const Prt = () => {
               </S.ItemWrap>
               <S.InputBoxWrap>
                 <TextField
-                  style={{ display: "flex", justifyContent: "center", width: "100%" }}
+                  style={textStyle}
                   id="outlined-basic"
                   label="pw_check"
                   variant="outlined"
@@ -103,9 +103,7 @@ const Prt = () => {
                 />
               </S.InputBoxWrap>
             </S.InputWrap>
-            {errors.confirmPW && (
-              <span style={{ color: "red", paddingLeft: "105px" }}>{errors.confirmPW.message}</span>
-            )}
+            {errors.confirmPW && <S.Error>{errors.confirmPW.message}</S.Error>}
             <S.InputWrapBtn>
               <S.ItemWrap>
                 <S.Mark>*</S.Mark>
@@ -113,7 +111,7 @@ const Prt = () => {
               </S.ItemWrap>
               <S.InputBoxWrap>
                 <TextField
-                  style={{ display: "flex", justifyContent: "center", width: "100%" }}
+                  style={textStyle}
                   id="outlined-basic"
                   label="Nick_Name"
                   variant="outlined"
@@ -122,7 +120,7 @@ const Prt = () => {
                 <button>중복확인</button>
               </S.InputBoxWrap>
             </S.InputWrapBtn>
-            {errors.nickName && <span style={{ color: "red" }}>{errors.nickName.message}</span>}
+            {errors.nickName && <S.Error>{errors.nickName.message}</S.Error>}
             <S.InputWrap>
               <S.ItemWrap>
                 <S.Mark>*</S.Mark>
@@ -130,11 +128,7 @@ const Prt = () => {
               </S.ItemWrap>
               <S.InputBoxWrap>
                 <TextField
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    width: "100%",
-                  }}
+                  style={textStyle}
                   id="outlined-basic"
                   label="010-0000-0000"
                   variant="outlined"
@@ -152,9 +146,7 @@ const Prt = () => {
                 />
               </S.InputBoxWrap>
             </S.InputWrap>
-            {errors.phoneNumber && (
-              <span style={{ color: "red" }}>{errors.phoneNumber.message}</span>
-            )}
+            {errors.phoneNumber && <S.Error>{errors.phoneNumber.message}</S.Error>}
             <S.InputWrapBtn>
               <S.ItemWrap>
                 <S.Mark>*</S.Mark>
@@ -162,7 +154,7 @@ const Prt = () => {
               </S.ItemWrap>
               <S.InputBoxWrap>
                 <TextField
-                  style={{ display: "flex", justifyContent: "center", width: "100%" }}
+                  style={textStyle}
                   id="outlined-basic"
                   label="Address"
                   variant="outlined"
@@ -221,7 +213,8 @@ const Form = styled.form`
 
 const Button = styled.button`
   height: 40px;
-  width: 82%;
+  width: 83%;
+  /* min-width: 515px; */
   border-radius: 10px;
   border: none;
   margin-top: 20px;
@@ -251,17 +244,6 @@ const InputBoxWrap = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  & > input {
-    width: 100%;
-    height: 20px;
-    border: 1px solid beige;
-    border-radius: 10px;
-    margin: 10px 0px;
-    display: flex;
-    padding: 20px;
-    margin-left: 10px;
-    padding-left: 10px;
-  }
 
   & > button {
     width: 120px;
@@ -292,6 +274,11 @@ const Mark = styled.span`
   font-weight: 700;
 `;
 
+const Error = styled.span`
+  color: red;
+  padding-left: 105px;
+`;
+
 const S = {
   Div,
   Wrap,
@@ -303,4 +290,5 @@ const S = {
   Mark,
   ItemWrap,
   InputBoxWrap,
+  Error,
 };

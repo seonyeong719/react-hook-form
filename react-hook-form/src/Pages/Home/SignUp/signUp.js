@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { FORM_TYPE } from "../../../Consts/form.type";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
 
 const SignUpPage = () => {
   const {
@@ -11,7 +9,7 @@ const SignUpPage = () => {
     getValues,
     setValue,
     formState: { errors },
-  } = useForm({ mode: "onBlur" });
+  } = useForm({ mode: "onChange" });
 
   const onSubmit = (data) => {
     alert("회원가입에 성공하셨습니다!");
@@ -204,7 +202,7 @@ const InputBoxWrap = styled.div`
   width: 100%;
   & > input {
     width: 100%;
-    height: 20px;
+    height: 10px;
     border: 1px solid beige;
     border-radius: 10px;
     margin: 10px 0px;

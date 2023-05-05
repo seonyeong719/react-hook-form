@@ -1,13 +1,10 @@
-// import LoginPage from "./Pages/Home/Login/login";
-// import SignUpPage from "./Pages/Home/SignUp/signUp";
-import Prt from "./Pages/Home";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./Routes/routing";
 
 function App() {
   return (
     <>
-      {/* <LoginPage /> */}
-      {/* <SignUpPage /> */}
-      <Prt />
+      <RouterProvider router={router} />
     </>
   );
 }
