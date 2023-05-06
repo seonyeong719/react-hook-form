@@ -1,5 +1,5 @@
 import axios from "axios";
-import TokenService from "repository/TokenService";
+import TokenService from "../Repository/tokenService";
 import UserApi from "./userApi";
 
 export const Axios = axios.create({

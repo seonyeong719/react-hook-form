@@ -1,8 +1,11 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { FORM_TYPE } from "../../../Consts/form.type";
+import { useNavigate } from "react-router-dom";
+import UserApi from "../../../Apis/userApi";
 
 const SignUpPage = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -11,17 +14,24 @@ const SignUpPage = () => {
     formState: { errors },
   } = useForm({ mode: "onChange" });
 
-  const onSubmit = (data) => {
-    alert("회원가입에 성공하셨습니다!");
-    let info = {
+  const onSubmit = async (data) => {
+    const info = {
       email: data.email,
       pw: data.password,
       nickName: data.nickName,
       phone: data.phoneNumber,
       region: "서울 강남구 역삼동",
     };
-    console.log(info);
+    try {
+      await UserApi.signup(info);
+      alert("회원가입이 완료되셨습니다");
+      navigate("/form/login");
+    } catch (err) {
+      return;
+    }
   };
+
+  // const { mutateAsync } = useMutation(({ email, password }) => AuthApi.signup(email, password));
 
   return (
     <S.Div>

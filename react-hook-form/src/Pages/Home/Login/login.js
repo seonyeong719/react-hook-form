@@ -3,6 +3,7 @@ import TextField from "@mui/material/TextField";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { FORM_TYPE } from "../../../Consts/form.type";
+import UserApi from "../../../Apis/userApi";
 
 const LoginPage = () => {
   const {
@@ -11,7 +12,19 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm({ mode: "onChange" });
 
-  const onSubmit = (data) => alert(JSON.stringify(data));
+  const onSubmit = async (data) => {
+    const loginInfo = {
+      email: data.email,
+      pw: data.password,
+    };
+    try {
+      const res = await UserApi.login(loginInfo);
+      alert("로그인 되셨습니다");
+      console.log(res);
+    } catch (err) {
+      return alert("아이디 또는 비밀번호를 다시 입력해주세요");
+    }
+  };
 
   return (
     <S.Div>
