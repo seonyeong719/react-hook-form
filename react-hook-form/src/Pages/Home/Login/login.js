@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { FORM_TYPE } from "../../../Consts/form.type";
 import UserApi from "../../../Apis/userApi";
+import { useEffect } from "react";
+import TokenService from "../../../Repository/tokenService";
 
 const LoginPage = () => {
   const {
@@ -25,6 +27,11 @@ const LoginPage = () => {
       return alert("아이디 또는 비밀번호를 다시 입력해주세요");
     }
   };
+
+  useEffect(() => {
+    if (TokenService.getToken()) {
+    }
+  });
 
   return (
     <S.Div>

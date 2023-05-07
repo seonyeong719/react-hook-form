@@ -14,6 +14,7 @@ const SignUpPage = () => {
     formState: { errors },
   } = useForm({ mode: "onChange" });
 
+  // 회원가입
   const onSubmit = async (data) => {
     const info = {
       email: data.email,
@@ -27,11 +28,34 @@ const SignUpPage = () => {
       alert("회원가입이 완료되셨습니다");
       navigate("/form/login");
     } catch (err) {
-      return;
+      console.log(err);
+      alert("중복확인을 헤주세요");
     }
   };
 
-  // const { mutateAsync } = useMutation(({ email, password }) => AuthApi.signup(email, password));
+  // email 중복확인
+  const onCheckEmail = async () => {
+    const inputValue = getValues("email");
+    try {
+      const res = await UserApi.checkEmail({ email: inputValue });
+      console.log(res);
+      alert(res.data.message);
+    } catch (err) {
+      return alert(err.response.data.message);
+    }
+  };
+
+  // nickName 중복확인
+  const onCheckNickName = async () => {
+    const inputValue = getValues("nickName");
+    try {
+      const res = await UserApi.checkNickName({ nickname: inputValue });
+      console.log(res);
+      alert(res.data.message);
+    } catch (err) {
+      return alert(err.response.data.message);
+    }
+  };
 
   return (
     <S.Div>
@@ -45,7 +69,7 @@ const SignUpPage = () => {
             </S.ItemWrap>
             <S.InputBoxWrap>
               <input {...register("email", FORM_TYPE.EMAIL_TYPE)} placeholder="E-mail" />
-              <button>중복확인</button>
+              <input value={"중복확인"} type="button" onClick={onCheckEmail} />
             </S.InputBoxWrap>
           </S.InputWrapBtn>
           {errors.email && <span style={{ color: "red" }}>{errors.email.message}</span>}
@@ -93,7 +117,7 @@ const SignUpPage = () => {
             </S.ItemWrap>
             <S.InputBoxWrap>
               <input {...register("nickName", FORM_TYPE.NICK_TYPE)} placeholder="Nick_Name" />
-              <button>중복확인</button>
+              <input value={"중복확인"} type="button" onClick={onCheckNickName} />
             </S.InputBoxWrap>
           </S.InputWrapBtn>
           {errors.nickName && <span style={{ color: "red" }}>{errors.nickName.message}</span>}
@@ -127,7 +151,7 @@ const SignUpPage = () => {
             </S.ItemWrap>
             <S.InputBoxWrap>
               <input placeholder="Address" />
-              <button>주소찾기</button>
+              <input value={"주소찾기"} type="button" />
             </S.InputBoxWrap>
           </S.InputWrapBtn>
           <BtnWrap>
@@ -210,7 +234,7 @@ const InputBoxWrap = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  & > input {
+  & > input:first-child {
     width: 100%;
     height: 10px;
     border: 1px solid beige;
@@ -222,7 +246,7 @@ const InputBoxWrap = styled.div`
     padding-left: 10px;
   }
 
-  & > button {
+  & > input:nth-child(2) {
     width: 120px;
     height: 40px;
     border-radius: 10px;
