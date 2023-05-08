@@ -6,11 +6,13 @@ export const Axios = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_URL,
   withCredentials: true,
 });
+// withCredentials를 true로 설정해줘야 refreshToken cookie를 주고받을 수 있다.
 
 Axios.interceptors.request.use(
   (config) => {
     const access_token = TokenService.getToken();
     if (access_token) {
+      // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
       config.headers.Authorization = `Bearer ${access_token}`;
       return config;
     }

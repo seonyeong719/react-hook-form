@@ -25,14 +25,8 @@ const NICK_TYPE = {
   maxLength: { value: 10, message: "닉네임은 최대 10자 입니다" },
 };
 
-const PHONE_TYPE = {
-  required: "휴대폰 번호를 입력해주세요",
-  minLength: { value: 13, message: "휴대폰 번호를 올바르게 입력해주세요" },
-};
-
 export const FORM_TYPE = {
   EMAIL_TYPE,
   PW_TYPE,
   NICK_TYPE,
-  PHONE_TYPE,
 };
