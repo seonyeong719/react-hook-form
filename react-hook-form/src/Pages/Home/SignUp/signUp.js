@@ -11,6 +11,7 @@ const SignUpPage = () => {
     handleSubmit,
     getValues,
     setValue,
+    control,
     formState: { errors },
   } = useForm({ mode: "onChange" });
 
